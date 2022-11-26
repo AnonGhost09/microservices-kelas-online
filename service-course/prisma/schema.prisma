@@ -1,0 +1,122 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Mentor {
+  id         Int      @id @default(autoincrement())
+  name       String
+  profile    String
+  email      String   @unique
+  profession String?
+  created_at DateTime @default(now()) @map("createdAt")
+  updated_at DateTime @updatedAt @map("updatedAt")
+  course     Course[]
+
+  @@map("mentors")
+}
+
+model Course {
+  id          Int           @id @default(autoincrement())
+  name        String
+  certificate Boolean
+  thumbnail   String?
+  type        Type
+  status      Status
+  price       Int?          @default(0)
+  level       Level
+  description String?       @db.Text
+  mentor_id   Int
+  created_at  DateTime      @default(now()) @map("createdAt")
+  updated_at  DateTime      @updatedAt @map("updatedAt")
+  mentor      Mentor        @relation(fields: [mentor_id], references: [id], onDelete: Cascade, map: "COURSES_MENTOR_ID")
+  chapter     Chapter[]
+  imageCourse ImageCourse[]
+  myCourse    MyCourse[]
+  review      Review[]
+
+  @@map("courses")
+}
+
+model Chapter {
+  id         Int      @id @default(autoincrement())
+  name       String
+  course_id  Int
+  created_at DateTime @default(now()) @map("createdAt")
+  updated_at DateTime @updatedAt @map("updatedAt")
+  course     Course   @relation(fields: [course_id], references: [id], onDelete: Cascade, map: "CHAPTERS_COURSE_ID")
+  lesson     Lesson[]
+
+  @@map("chapters")
+}
+
+model MyCourse {
+  id         Int      @id @default(autoincrement())
+  course_id  Int
+  user_id    Int      @unique
+  created_at DateTime @default(now()) @map("createdAt")
+  updated_at DateTime @updatedAt @map("updatedAt")
+  course     Course   @relation(fields: [course_id], references: [id], onDelete: Cascade, map: "MY_COURSES_COURSE_ID")
+
+  @@unique([course_id, user_id], map: "UNIQUE_COURSE_USER_ID")
+  @@map("my_courses")
+}
+
+model ImageCourse {
+  id         Int      @id @default(autoincrement())
+  course_id  Int?
+  image      String
+  created_at DateTime @default(now()) @map("createdAt")
+  updated_at DateTime @updatedAt @map("updatedAt")
+  course     Course?  @relation(fields: [course_id], references: [id], onDelete: Cascade, map: "IMAGE_COURSES_COURSE_ID")
+
+  @@map("image_courses")
+}
+
+model Review {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  course_id  Int?
+  rating     Int      @default(1)
+  note       String?  @db.LongText
+  created_at DateTime @default(now()) @map("createdAt")
+  updated_at DateTime @updatedAt @map("updatedAt")
+  course     Course?  @relation(fields: [course_id], references: [id], onDelete: Cascade, map: "REVIEWS_COURSE_ID")
+
+  @@unique([course_id, user_id], map: "USER_COURSE_ID")
+  @@map("reviews")
+}
+
+
+
+  id         Int      @id @default(autoincrement())
+  name       String
+  video      String
+  chapter_id Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  chapter    Chapter  @relation(fields: [chapter_id], references: [id], onDelete: Cascade, map: "LESSONS_CHAPTER_ID")
+
+  @@map("lessons")
+}
+
+enum Type {
+  FREE
+  PREMIUM
+}
+
+enum Status {
+  DRAFT
+  PUBLISHED
+}
+
+enum Level {
+  ALL_LEVEL    @map("ALL-LEVEL")
+  BEGINNER
+  INTERMEDIATE
+  ADVANCE
+}

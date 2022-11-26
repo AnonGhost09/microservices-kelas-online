@@ -1,0 +1,36 @@
+npm install -g express-generator// untuk membuat folder expressnya ter struktur
+express -h// untuk liat ada apa aja yang bisa digunakan
+express --no-view api-gateway//untuk membuat strukturnya (tanpa view karena kita tidak menggunakan view engine) api-gateway adalah nama foldernya
+npm install //untuk install package manager agar bisa di npm start
+
+buat file .env untuk menyimpan variabel configuration
+npm install dotenv --save //agar bisa memanggil .env
+letakan dotenv di app.js
+
+npm install axios --save
+buat apiAdapter untuk menyimpan axios configure
+
+//INSTAll sequelize
+
+npm install sequelize sequelize-cli --save
+npx sequelize //untuk melihat command atau cli sequelize
+npx sequelize init//untuk membuat folder config, migrations, models, seeders
+ubah file config.json di folder config menjadi config.js agar bisa memasukan konfigurasi dari .env
+
+npx sequelize migration:generate --name=create-table-media //membuat migration yang baru... menggunakan generate bukan create
+npm instal mysql2
+
+npm install is-base64 base64-img untuk cek apakah image base64(is-base64) dan untuk mengupload image(base64-img)
+
+nodemon bin/www untuk menjalankan server dengan nodemon
+
+
+//membuat seeders
+npx sequelize seed:create --name=user-seeders
+npx sequelize db:seed:all jalankan seeder
+
+//install bcrypt untuk enkrip password
+npm install bcrypt
+
+//install validator
+npm install fastest-validator

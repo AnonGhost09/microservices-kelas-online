@@ -1,0 +1,8 @@
+npm i @prisma/client
+npx prisma init --datasource-provider mysql //untuk mendefinisi prisma
+
+npx prisma db push //untuk memasukan model ke database
+npx prisma generate //untuk generate
+npx prisma studio //untuk liat data seperti localhost
+npx prisma pull //untuk update model baru
+npx prisma migrate dev --name (namaMigration) //untuk membuat migration

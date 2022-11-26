@@ -1,0 +1,13 @@
+-- CreateTable
+CREATE TABLE `image_courses` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `course_id` INTEGER NOT NULL,
+    `image` VARCHAR(191) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `image_courses` ADD CONSTRAINT `IMAGE_COURSES_COURSE_ID` FOREIGN KEY (`course_id`) REFERENCES `courses`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
